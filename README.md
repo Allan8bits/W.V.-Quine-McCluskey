@@ -18,8 +18,8 @@ This project implements a logic minimizer using the Quine-McCluskey algorithm. I
 Clone the repository and compile the project using:
 
 ```bash
-git clone [repository-url]
-cd [repository-folder]
+git clone https://github.com/Allan8bits/W.V.-Quine-McCluskey.git
+cd [your-repository-folder]
 make
 ```
 
@@ -55,8 +55,8 @@ Este projeto implementa um minimizador lógico usando o algoritmo de Quine-McClu
 Clone o repositório e compile o projeto usando:
 
 ``` bash
-git clone [url-do-repositório]
-cd [pasta-do-repositório]
+git clone https://github.com/Allan8bits/W.V.-Quine-McCluskey.git
+cd [pasta-do-repositório-clonado]
 make
 ```
 
