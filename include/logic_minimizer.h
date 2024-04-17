@@ -6,7 +6,8 @@
 // Function prototypes
 static bool can_combine(Term a, Term b);
 static Term combine_terms(Term a, Term b);
-static bool is_covered(Term term, int minterm);
+void remove_duplicates(Term *terms, int *num_terms);
 void generate_min_circuit(int v[], int size);
+//static bool is_covered(Term term, int minterm);
 
 #endif
