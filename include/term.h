@@ -9,8 +9,6 @@ typedef struct {
     bool used; // Indica se o termo foi usado
 } Term;
 
-extern int MAX_VARIABLES;
-
 void fill_binary_representation(Term *nb);
 void print_expression(int num, int mask);
 

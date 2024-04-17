@@ -4,8 +4,6 @@
 #include "term.h"        // Assegure que o arquivo de cabeçalho contém as definições corretas
 #include "expression.h"  // Assegure que o arquivo de cabeçalho contém as funções de impressão corretas
 
-int MAX_VARIABLES = 8;
-
 // Função para preencher a representação binária e contar os '1's
 void fill_binary_representation(Term *term) {
     term->count_one = 0;
@@ -50,7 +48,7 @@ void remove_duplicates(Term *terms, int *num_terms) {
 
 // Função para gerar o circuito minimizado
 void generate_min_circuit(int v[], int size) {
-    Term terms[MAX_VARIABLES];
+    Term terms[size];
     int num_terms = size;
 
     // Inicializa os termos
@@ -59,6 +57,12 @@ void generate_min_circuit(int v[], int size) {
         terms[i].mask = 0;
         terms[i].used = false;
         fill_binary_representation(&terms[i]);
+    }
+
+    for (int i = 0; i < num_terms; i++) {
+        printf("Termo %d: ", i+1);
+        print_binary(terms[i].num);
+        printf("\n");
     }
 
     bool progress;
@@ -87,6 +91,7 @@ void generate_min_circuit(int v[], int size) {
     // Remover duplicatas
     remove_duplicates(terms, &num_terms);
 
+    printf("\n");
     // Imprimir termos resultantes
     for (int i = 0; i < num_terms; i++) {
         printf("Termo Final: ");
