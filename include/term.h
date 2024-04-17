@@ -9,7 +9,6 @@ typedef struct {
     bool used; // Indica se o termo foi usado
 } Term;
 
-void fill_binary_representation(Term *nb);
-void print_expression(int num, int mask);
+void remove_duplicates(Term *terms, int *num_terms);
 
 #endif // TERM_H

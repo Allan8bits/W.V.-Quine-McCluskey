@@ -5,5 +5,7 @@
 #include "term.h"
 
 void print_binary(unsigned int num);
+void fill_binary_representation(Term *nb);
+void print_expression(int num, int mask);
 
 #endif

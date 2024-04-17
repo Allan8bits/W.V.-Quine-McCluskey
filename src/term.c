@@ -3,15 +3,19 @@
 #include <stdio.h>
 #include <string.h>
 
-// Função para imprimir a representação binária como expressão lógica
-void print_expression(int num, int mask) {
-    for (int i = 7; i >= 0; i--) {
-        char var = 'H' - (7 - i);
-        if (mask & (1 << i)) {
-            printf("-");
-        } else {
-            printf("%c", (num & (1 << i)) ? var : ('~' + var));
+void remove_duplicates(Term *terms, int *num_terms) {
+    int newCount = 0;  // Novo contador para o número de termos após remover duplicatas
+    for (int i = 0; i < *num_terms; i++) {
+        bool isDuplicate = false;
+        for (int j = 0; j < newCount; j++) {
+            if (terms[i].num == terms[j].num && terms[i].mask == terms[j].mask) {
+                isDuplicate = true;
+                break;
+            }
+        }
+        if (!isDuplicate) {
+            terms[newCount++] = terms[i];  // Adiciona este termo ao array se não for duplicado
         }
     }
-    printf("\n");
+    *num_terms = newCount;  // Atualiza o contador de termos para refletir o número de termos únicos
 }

@@ -20,7 +20,6 @@ $(BINDIR)/%.o: $(SRCDIR)/%.c
 
 clean:
 	@echo Cleaning
-	@del /q /f "$(BINDIR)\*" 2>nul
-	@rmdir /q /s "$(BINDIR)" 2>nul
-
+	@IF EXIST "$(BINDIR)\*" del /q /f "$(BINDIR)\*"
+	@IF EXIST "$(BINDIR)" rmdir /q /s "$(BINDIR)"
 .PHONY: all clean
