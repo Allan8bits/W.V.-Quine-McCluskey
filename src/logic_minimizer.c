@@ -30,9 +30,13 @@ bool can_combine(Term a, Term b) {
 void generate_min_circuit(int v[], int size) {
     Term *groups[size + 1];  // Armazenamento permanente
     Term *new_groups[size + 1];  // Armazenamento temporário
+    Term *unused_terms;
+     int unused_terms_size = 0;
     int group_sizes[size + 1];
     memset(group_sizes, 0, sizeof(group_sizes));
     int new_group_sizes[size + 1];
+    memset(new_group_sizes, 0, sizeof(new_group_sizes));
+    unused_terms = malloc(size * sizeof(Term));
     memset(new_group_sizes, 0, sizeof(new_group_sizes));
 
     // Inicializar os grupos e alocar memória
@@ -56,6 +60,8 @@ void generate_min_circuit(int v[], int size) {
                 for (int k = 0; k < group_sizes[i + 1]; k++) {
                     if (can_combine(groups[i][j], groups[i + 1][k])) {
                         Term new_term = combine_terms(groups[i][j], groups[i + 1][k]);
+                        groups[i][j].used = true;
+                        groups[i+1][k].used = true;
                         new_groups[i][new_group_sizes[i]++] = new_term;
                         progress = true;
                         // Imprime os termos antes e depois da combinação
@@ -67,6 +73,9 @@ void generate_min_circuit(int v[], int size) {
                     }
                 }              
                 printf("\n");
+                if (!groups[i][j].used) {
+                    unused_terms[unused_terms_size++] = groups[i][j];
+                }
             }
         }
         // Atualizar os grupos com novos termos e preparar para a próxima iteração
@@ -77,13 +86,13 @@ void generate_min_circuit(int v[], int size) {
         }
     } while (progress);
 
-    remove_duplicates(groups[size + 1], &group_sizes[size + 1]);
+    remove_duplicates(unused_terms, &unused_terms_size);
 
     // Imprime os termos finais
-    printf("\nFinal Terms:\n");
-    for (int i = 0; i < group_sizes[size + 1]; i++) {
-        printf("Final Term: ");
-        print_binary(groups[size + 1][i]);
+    printf("\n----------FINAL TERMS----------\n");
+    for (int i = 0; i < unused_terms_size; i++) {
+        printf("\nFinal Term: ");
+        print_binary(unused_terms[i]);
     }
 
     // Limpeza e impressão dos resultados
