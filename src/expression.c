@@ -3,14 +3,13 @@
 #include <stdio.h>
 
 
-// Função para preencher a representação binária e contar os '1's
-void fill_binary_representation(Term *term) {
-    term->count_one = 0;
-    for (int i = 0; i < 8; i++) {
-        if ((term->num >> i) & 1) {
-            term->count_one++;
-        }
+int count_bits(unsigned int n) {
+    int k = 0;
+    while (n) {
+        k += n & 1;
+        n >>= 1;
     }
+    return k;
 }
 
 // Function to print the simplified expression
