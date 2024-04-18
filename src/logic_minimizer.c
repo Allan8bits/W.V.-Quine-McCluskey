@@ -1,85 +1,94 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "term.h"
 #include "expression.h"
 
 // Função para combinar dois termos se eles diferirem por exatamente um bit, considerando máscaras
 Term combine_terms(Term a, Term b) {
     Term result;
-    result.num = a.num & b.num;  // Mantém o número onde ambos os bits são 1
-    result.mask = (a.num ^ b.num) | a.mask | b.mask;  // Marca diferenças e todas as máscaras existentes
+    unsigned int combined_mask = a.mask | b.mask; // Máscaras combinadas
+    unsigned int diff_bit = (a.num ^ b.num) & ~(a.mask | b.mask); // Diferença apenas em bits não mascarados
+
+    result.num = (a.num & b.num) & ~diff_bit; // Mantém bits iguais que não são a diferença
+    result.mask = combined_mask | diff_bit; // Atualiza a máscara com a diferença detectada
     result.used = false;
     return result;
 }
 
 // Verifica se dois termos podem ser combinados, considerando máscaras
 bool can_combine(Term a, Term b) {
-    unsigned int diff = (a.num ^ b.num) & ~(a.mask | b.mask); // Diferenças onde não há máscaras
-    unsigned int mask_diff = (a.mask ^ b.mask) & ~(a.num ^ b.num); // Diferenças nas máscaras que não estão no número
+    // Obtenha todos os bits que diferem
+    unsigned int diff = (a.num ^ b.num) | (a.mask ^ b.mask);
 
-    return (diff | mask_diff) != 0 && ((diff | mask_diff) & ((diff | mask_diff) - 1)) == 0;
+    // Certifique-se de que há exatamente um bit de diferença
+    return diff != 0 && (diff & (diff - 1)) == 0;
 }
 
 // Função para gerar o circuito minimizado
 void generate_min_circuit(int v[], int size) {
-    Term terms[size];
-    int num_terms = size;
-
-    // Inicializa os termos
-    for (int i = 0; i < size; i++) {
-        terms[i].num = v[i];
-        terms[i].mask = 0;
-        terms[i].used = false;
-    }
-
-    for (int i = 0; i < num_terms; i++) {
-        printf("Termo %d: ", i+1);
-        print_binary(terms[i]);
-        printf("\n");
-    }
-
-    Term *groups[size + 1];
+    Term *groups[size + 1];  // Armazenamento permanente
+    Term *new_groups[size + 1];  // Armazenamento temporário
     int group_sizes[size + 1];
-    memset(group_sizes, 0, sizeof(group_sizes));  // Inicializa todos os elementos a zero
+    memset(group_sizes, 0, sizeof(group_sizes));
+    int new_group_sizes[size + 1];
+    memset(new_group_sizes, 0, sizeof(new_group_sizes));
 
-    // Alocar memória para os grupos
+    // Inicializar os grupos e alocar memória
     for (int i = 0; i <= size; i++) {
-        groups[i] = malloc(num_terms * sizeof(Term));
+        groups[i] = malloc(size * sizeof(Term));
+        new_groups[i] = malloc(size * sizeof(Term));
     }
 
-    // Preencher os grupos
-    for (int i = 0; i < num_terms; i++) {
-        int bit_count = count_bits(terms[i].num);
-        groups[bit_count][group_sizes[bit_count]++] = terms[i];
+    // Agrupar termos conforme o número de '1's
+    for (int i = 0; i < size; i++) {
+        int bitCount = __builtin_popcount(v[i]);
+        groups[bitCount][group_sizes[bitCount]++] = (Term){v[i], 0, false};
     }
 
-    // Combinar grupos
     bool progress;
     do {
         progress = false;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < group_sizes[i]; j++) {
+                bool combined = false;
                 for (int k = 0; k < group_sizes[i + 1]; k++) {
-                    if (!groups[i][j].used && !groups[i + 1][k].used && can_combine(groups[i][j], groups[i + 1][k])) {
-                        Term newTerm = combine_terms(groups[i][j], groups[i + 1][k]);
-                        groups[i][j] = newTerm;
-                        groups[i + 1][k].used = true;
+                    if (can_combine(groups[i][j], groups[i + 1][k])) {
+                        Term new_term = combine_terms(groups[i][j], groups[i + 1][k]);
+                        new_groups[i][new_group_sizes[i]++] = new_term;
                         progress = true;
+                        // Imprime os termos antes e depois da combinação
+                        printf("\nCombining: ");
+                        print_binary(groups[i][j]);
+                        print_binary(groups[i + 1][k]);
+                        printf("\nResult:    ");
+                        print_binary(new_term);
                     }
-                }
+                }              
+                printf("\n");
             }
+        }
+        // Atualizar os grupos com novos termos e preparar para a próxima iteração
+        for (int i = 0; i <= size; i++) {
+            memcpy(groups[i], new_groups[i], new_group_sizes[i] * sizeof(Term));
+            group_sizes[i] = new_group_sizes[i];
+            new_group_sizes[i] = 0;  // Resetar tamanhos de novos grupos para a próxima iteração
         }
     } while (progress);
 
-    // Imprimir termos resultantes e liberar memória
+    remove_duplicates(groups[size + 1], &group_sizes[size + 1]);
+
+    // Imprime os termos finais
+    printf("\nFinal Terms:\n");
+    for (int i = 0; i < group_sizes[size + 1]; i++) {
+        printf("Final Term: ");
+        print_binary(groups[size + 1][i]);
+    }
+
+    // Limpeza e impressão dos resultados
     for (int i = 0; i <= size; i++) {
-        for (int j = 0; j < group_sizes[i]; j++) {
-            if (!groups[i][j].used) {
-                printf("\nFinal Terms: ");
-                print_binary(groups[i][j]);
-            }
-        }
         free(groups[i]);
+        free(new_groups[i]);
     }
 }
