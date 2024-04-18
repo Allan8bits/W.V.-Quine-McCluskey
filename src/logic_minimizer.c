@@ -86,7 +86,7 @@ void generate_min_circuit(int v[], int size) {
         }
     } while (progress);
 
-    remove_duplicates( prime_implicants, & prime_implicants_size);
+    remove_duplicates(prime_implicants, & prime_implicants_size);
 
     // Imprime os termos finais
     printf("\n----------FINAL TERMS----------\n");
