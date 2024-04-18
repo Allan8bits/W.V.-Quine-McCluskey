@@ -27,12 +27,18 @@ void print_binary(Term term) {
 // Função para imprimir a representação binária como expressão lógica
 void print_expression(int num, int mask) {
     for (int i = 7; i >= 0; i--) {
-        char var = 'H' - (7 - i);
+        char var = 'A' + (7 - i);
         if (mask & (1 << i)) {
-            printf("-");
+            continue;
+        }
+
+        if (num & (1 << i)) {
+            // Se o bit em 'num' está definido, a variável não é negada.
+            printf("%c", var);
         } else {
-            printf("%c", (num & (1 << i)) ? var : ('~' + var));
+            // Se o bit em 'num' não está definido, a variável é negada.
+            printf("%c'", var);
         }
     }
-    printf("\n");
+    printf(" + ");
 }

@@ -91,8 +91,12 @@ void generate_min_circuit(int v[], int size) {
     // Imprime os termos finais
     printf("\n----------FINAL TERMS----------\n");
     for (int i = 0; i <  prime_implicants_size; i++) {
-        printf("\nFinal Term: ");
+        printf("\nPrime Implicants: ");
         print_binary( prime_implicants[i]);
+    }
+    printf("\n\ny = ");    
+    for (int i = 0; i <  prime_implicants_size; i++) {
+        print_expression(prime_implicants[i].num, prime_implicants[i].mask);
     }
 
     // Limpeza e impressão dos resultados
