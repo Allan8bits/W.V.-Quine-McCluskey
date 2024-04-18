@@ -15,8 +15,10 @@ Term combine_terms(Term a, Term b) {
 
 // Verifica se dois termos podem ser combinados
 bool can_combine(Term a, Term b) {
-    unsigned int diff = (a.num ^ b.num) & ~(a.mask | b.mask);
-    return diff != 0 && (diff & (diff - 1)) == 0;
+    unsigned int diff = (a.num ^ b.num);
+    unsigned int relevant_diff = diff | a.mask | b.mask;  // Considera bits originalmente mascarados como diferentes
+
+    return relevant_diff != 0 && (relevant_diff & (relevant_diff - 1)) == 0;
 }
 
 // Função para gerar o circuito minimizado
@@ -34,7 +36,7 @@ void generate_min_circuit(int v[], int size) {
 
     for (int i = 0; i < num_terms; i++) {
         printf("Termo %d: ", i+1);
-        print_binary(terms[i].num);
+        print_binary(terms[i]);
         printf("\n");
     }
 
@@ -68,7 +70,7 @@ void generate_min_circuit(int v[], int size) {
     // Imprimir termos resultantes
     for (int i = 0; i < num_terms; i++) {
         printf("Termo Final: ");
-        print_binary(terms[i].num);
+        print_binary(terms[i]);
         printf("\n");
     }
     free(terms); // Liberar memória alocada
