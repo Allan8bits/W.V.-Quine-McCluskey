@@ -72,10 +72,10 @@ void generate_min_circuit(int v[], int size) {
                         print_binary(new_term);
                     }
                 }              
-                printf("\n");
                 if (!groups[i][j].used) {
                     unused_terms[unused_terms_size++] = groups[i][j];
                 }
+                printf("\n");
             }
         }
         // Atualizar os grupos com novos termos e preparar para a próxima iteração
