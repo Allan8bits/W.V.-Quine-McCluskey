@@ -30,13 +30,13 @@ bool can_combine(Term a, Term b) {
 void generate_min_circuit(int v[], int size) {
     Term *groups[size + 1];  // Armazenamento permanente
     Term *new_groups[size + 1];  // Armazenamento temporário
-    Term *unused_terms;
-     int unused_terms_size = 0;
+    Term * prime_implicants;
+     int  prime_implicants_size = 0;
     int group_sizes[size + 1];
     memset(group_sizes, 0, sizeof(group_sizes));
     int new_group_sizes[size + 1];
     memset(new_group_sizes, 0, sizeof(new_group_sizes));
-    unused_terms = malloc(size * sizeof(Term));
+     prime_implicants = malloc(size * sizeof(Term));
     memset(new_group_sizes, 0, sizeof(new_group_sizes));
 
     // Inicializar os grupos e alocar memória
@@ -73,7 +73,7 @@ void generate_min_circuit(int v[], int size) {
                     }
                 }              
                 if (!groups[i][j].used) {
-                    unused_terms[unused_terms_size++] = groups[i][j];
+                     prime_implicants[ prime_implicants_size++] = groups[i][j];
                 }
                 printf("\n");
             }
@@ -86,13 +86,13 @@ void generate_min_circuit(int v[], int size) {
         }
     } while (progress);
 
-    remove_duplicates(unused_terms, &unused_terms_size);
+    remove_duplicates( prime_implicants, & prime_implicants_size);
 
     // Imprime os termos finais
     printf("\n----------FINAL TERMS----------\n");
-    for (int i = 0; i < unused_terms_size; i++) {
+    for (int i = 0; i <  prime_implicants_size; i++) {
         printf("\nFinal Term: ");
-        print_binary(unused_terms[i]);
+        print_binary( prime_implicants[i]);
     }
 
     // Limpeza e impressão dos resultados
