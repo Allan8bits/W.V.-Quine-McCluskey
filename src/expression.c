@@ -32,13 +32,8 @@ void print_expression(int num, int mask) {
             continue;
         }
 
-        if (num & (1 << i)) {
-            // Se o bit em 'num' está definido, a variável não é negada.
-            printf("%c", var);
-        } else {
-            // Se o bit em 'num' não está definido, a variável é negada.
-            printf("%c'", var);
-        }
+        printf("%c%c", var, (num & (1 << i)) ? ' ' : '\'');
+
     }
     printf(" + ");
 }

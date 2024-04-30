@@ -73,7 +73,7 @@ void generate_min_circuit(int v[], int size) {
                     }
                 }              
                 if (!groups[i][j].used) {
-                     prime_implicants[ prime_implicants_size++] = groups[i][j];
+                     prime_implicants[prime_implicants_size++] = groups[i][j];
                 }
                 printf("\n");
             }
