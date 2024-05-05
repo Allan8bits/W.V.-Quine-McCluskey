@@ -36,9 +36,8 @@ void generate_min_circuit(int v[], int size) {
     memset(group_sizes, 0, sizeof(group_sizes));
     int new_group_sizes[size + 1];
     memset(new_group_sizes, 0, sizeof(new_group_sizes));
-     prime_implicants = malloc(size * sizeof(Term));
-    memset(new_group_sizes, 0, sizeof(new_group_sizes));
-
+    prime_implicants = malloc(size * sizeof(Term));
+    
     // Inicializar os grupos e alocar memória
     for (int i = 0; i <= size; i++) {
         groups[i] = malloc(size * sizeof(Term));
