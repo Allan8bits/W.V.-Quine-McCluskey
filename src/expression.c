@@ -2,16 +2,6 @@
 #include "expression.h"
 #include <stdio.h>
 
-
-int count_bits(unsigned int n) {
-    int k = 0;
-    while (n) {
-        k += n & 1;
-        n >>= 1;
-    }
-    return k;
-}
-
 // Function to print the simplified expression
 void print_binary(Term term) {
     for (int i = 7; i >= 0; i--) {

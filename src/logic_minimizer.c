@@ -5,7 +5,7 @@
 #include "term.h"
 #include "expression.h"
 
-// Função para combinar dois termos se eles diferirem por exatamente um bit, considerando máscaras
+// Função para combinar dois termos se eles diferirem por exatamente um bit, `considerando máscaras`.
 Term combine_terms(Term a, Term b) {
     Term result;
     unsigned int combined_mask = a.mask | b.mask; // Máscaras combinadas
@@ -37,7 +37,7 @@ void generate_min_circuit(int v[], int size) {
     int new_group_sizes[size + 1];
     memset(new_group_sizes, 0, sizeof(new_group_sizes));
     prime_implicants = malloc(size * sizeof(Term));
-    
+
     // Inicializar os grupos e alocar memória
     for (int i = 0; i <= size; i++) {
         groups[i] = malloc(size * sizeof(Term));
@@ -46,8 +46,8 @@ void generate_min_circuit(int v[], int size) {
 
     // Agrupar termos conforme o número de '1's
     for (int i = 0; i < size; i++) {
-        int bitCount = __builtin_popcount(v[i]);
-        groups[bitCount][group_sizes[bitCount]++] = (Term){v[i], 0, false};
+        int bit_count = __builtin_popcount(v[i]);
+        groups[bit_count][group_sizes[bit_count]++] = (Term){v[i], 0, false};
     }
 
     bool progress;
