@@ -1,4 +1,4 @@
-//include/logic_minimizer.h
+// include/logic_minimizer.h
 #include "term.h"
 #ifndef LOGIC_MINIMIZER_H
 #define LOGIC_MINIMIZER_H
