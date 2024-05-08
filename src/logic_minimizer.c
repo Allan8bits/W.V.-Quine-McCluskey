@@ -157,6 +157,10 @@ void generate_min_circuit(int v[], int size)
     for (int i = 0; i < prime_implicants_size; i++)
     {
         print_expression(prime_implicants[i].num, prime_implicants[i].mask);
+        if (i < prime_implicants_size - 1)
+        {
+            printf(" + ");
+        }
     }
 
     // Limpeza e liberação de memória dos grupos
