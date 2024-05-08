@@ -30,6 +30,13 @@ After compiling, run the program using:
 ./bin/main
 ```
 
+## Output
+After running, the output is available in the following location:
+
+```bash
+./bin/output.txt
+```
+
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
@@ -66,6 +73,13 @@ Após compilar, execute o programa usando:
 
 ``` bash
 ./bin/main
+```
+
+## Output
+Depois de rodar, o output é disponibilizado no seguinte arquivo:
+
+```bash
+./bin/output.txt
 ```
 
 Licença
