@@ -23,7 +23,7 @@ void print_binary(Term term)
 // Função para imprimir a representação binária como expressão lógica
 void print_expression(int num, int mask)
 {
-    for (int i = 7; i >= 0; i--)
+    for (int i = 0; i <= 7; i++)
     {
         char var = 'A' + (7 - i);
         if (mask & (1 << i))
