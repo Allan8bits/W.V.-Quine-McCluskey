@@ -79,6 +79,7 @@ Term combine_terms(Term a, Term b)
 
 void generate_min_circuit(int v[], int size)
 {
+    freopen(".\\bin\\output.txt", "w", stdout);
     printf("\n---------- QUINE-MCCLUSKEY ALGORITHM STARTED ----------\n\n"); // Print de início
 
     Term *groups[size + 1];                              // Array de ponteiros para armazenar grupos de termos por número de '1's
@@ -174,4 +175,5 @@ void generate_min_circuit(int v[], int size)
         free(new_groups[i]);
     }
     printf("\n\n\n---------- QUINE-MCCLUSKEY ALGORITHM FINISHED ----------\n"); // Print de fim
+    fclose(stdout);
 }
