@@ -1,4 +1,21 @@
-// src/main.c
+/*********************************************************************
+* Nome do Projeto: Algoritmo Quine-McCluskey
+* Descrição: Este projeto é uma implementação em C do algoritmo
+* Quine-McCluskey, usado para minimizar funções booleanas.
+*
+* Autor: Allan Rodrigo Remedi Amantino e João Vitor Silva Gomes
+* Data: 08/05/2024
+*
+* Funções Principais:
+* - void generate_min_circuit(): Gera a função boleana minimizada.
+* - Term combine_terms(): Combina dois termos se eles diferirem por exatamente um bit, considerando suas máscaras.
+* - bool can_combine():  Verifica se dois termos podem ser combinados, considerando máscaras.
+*
+* Observações:
+* - Este código é apenas para fins educativos e pode não ser
+*   totalmente otimizado para uso em produção.
+*
+*********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
