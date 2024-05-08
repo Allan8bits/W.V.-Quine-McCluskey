@@ -6,7 +6,6 @@ typedef struct
 {
     unsigned int num;  // Valor do termo
     unsigned int mask; // Máscara de bits de "don't care"
-    int count_one;     // Contagem de bits '1'
     bool used;         // Indica se o termo foi usado
 } Term;
 
