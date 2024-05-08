@@ -79,6 +79,8 @@ Term combine_terms(Term a, Term b)
 
 void generate_min_circuit(int v[], int size)
 {
+    printf("\n---------- QUINE-MCCLUSKEY ALGORITHM STARTED ----------\n\n"); // Print de início
+
     Term *groups[size + 1];                              // Array de ponteiros para armazenar grupos de termos por número de '1's
     Term *new_groups[size + 1];                          // Array temporário para armazenar novos grupos gerados na combinação
     Term *prime_implicants;                              // Array para armazenar os implicantes primos encontrados
@@ -132,7 +134,6 @@ void generate_min_circuit(int v[], int size)
                 {
                     prime_implicants[prime_implicants_size++] = groups[i][j];
                 }
-                printf("\n");
             }
         }
         // Atualiza os grupos com os novos termos e prepara para a próxima iteração
@@ -143,8 +144,11 @@ void generate_min_circuit(int v[], int size)
             new_group_sizes[i] = 0; // Resetar tamanhos dos novos grupos para a próxima iteração
         }
     } while (progress); // Continua enquanto houver progresso
-
+    printf("\n\nRemoving duplicates...");
     remove_duplicates(prime_implicants, &prime_implicants_size); // Remove duplicatas dos implicantes primos
+    printf("\nDuplicates removed successfully\n");
+
+    printf("\nNumber of prime implicants after removing duplicates: %d\n", prime_implicants_size);
 
     // Imprime os termos finais
     printf("\n\n----------FINAL TERMS----------\n");
@@ -169,4 +173,5 @@ void generate_min_circuit(int v[], int size)
         free(groups[i]);
         free(new_groups[i]);
     }
+    printf("\n\n\n---------- QUINE-MCCLUSKEY ALGORITHM FINISHED ----------\n"); // Print de fim
 }
